@@ -68,11 +68,40 @@ public class Logic {
         return rst;
     }
 
-    public boolean isWin() {
-        int[][] table = this.convert();
-        boolean result = false;
+    public static boolean monoHorizontal(int[][] board, int row) { // Берем написанный заранее метод,
+        boolean result = true;                                    // меняем в нём char на int) ждём результат
+        for (int i = 0; i < board.length; i++) {               //диапазон счетчика цыкла строки
+            if (board[row][i] != board[row][0]) {             // Сравниваем символ по координатам row и i с числом 1
+                result = false;                             // Если по координатам row и i  нет 1, возвращаем false
+                break;                                    // прерыватель цыкла, выходим, всё кончено
+            }
+        }
+        return result;                          // возвращаем результат
+    }
+
+    public static boolean monoVertical(int[][] board, int column) {  // те же яйца только в профиль!
+        boolean result = true;                                 // Не забываем изменить символы на int
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][column] != board[0][column]) {   // Сравниваем число по координатам  i и column  с числом 1
+                result = false;                          // Если по координатам  i и column нет 1, возвращаем false
+                break;                                  // прерыватель цыкла, выходим, всё кончено
+            }
+        }
         return result;
     }
+
+    public boolean isWin() {  // А вот теперь всё придельно ясно!
+        int[][] table = this.convert();
+        boolean result = false;
+        for (int index = 0; index < table.length; index++) {
+            if (table[index][index] == 1 && (monoHorizontal(table, index) || monoVertical(table, index))) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
 
     public int[][] convert() {
         int[][] table = new int[this.size][this.size];
