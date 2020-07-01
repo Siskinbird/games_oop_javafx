@@ -40,12 +40,12 @@ public class BishopBlack implements Figure {
         if (!isDiagonal(source, dest)) {
             throw new IllegalStateException(String.format("Could not way by diagonal from %s to %s", source, dest));
         }
-        int size = Math.abs(dest.x) - Math.abs(source.x);
+        int size = Math.abs(dest.x - source.x);
         Cell[] steps = new Cell[size];
-        int deltaX = source.x + 1;
-        int deltaY = source.y + 1;
+        int deltaX = dest.x - source.x > 0 ? 1 : -1;
+        int deltaY = dest.y - source.y > 0 ? 1 : -1;
         for (int index = 0; index < size; index++) {
-            steps[index] = Cell.findBy(index + deltaX,index + deltaY);
+            steps[index] = Cell.findBy((position.x + (index * deltaX)),position.y  + (index * deltaY));
         }
         return steps;
     }
@@ -59,3 +59,19 @@ public class BishopBlack implements Figure {
         return new BishopBlack(dest);
     }
 }
+
+
+
+////Определяем знак (направление движения фигуры).
+//                if(x2-x1>0){        //Двигаем вправо.
+//                    for(int i=1;i<x2;i++){
+//                        if(!CheckPoint(x1+i,y1)){
+//                            System.out.println("Ферзь не может перескакивать через другие фигуры.");
+//                            return;
+//                        }
+//                    }
+//                    //Тут буден написана в будущем проверка на наличие фигуры в конце пути, и проверка, можно ли ее съесть.
+//                }else{
+//                    for(int i=-1;i>x2;i--){//Двигаем влево.
+//  for(int i=-1;i>y2;i--){//Двигаем вниз.
+//  for(int i=-1;i>x2;i--){//Двигаем влево.

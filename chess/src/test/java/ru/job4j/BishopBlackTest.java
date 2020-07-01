@@ -26,6 +26,12 @@ public class BishopBlackTest {
         assertThat(bishopBlack.way(Cell.C1, Cell.G5), is(new Cell[]{Cell.D2, Cell.E3, Cell.F4, Cell.G5}) );
     }
     @Test
+    public void CheckBackDelta(){
+        BishopBlack bishopBlack = new BishopBlack(Cell.F1);
+        bishopBlack.way(Cell.F1, Cell.D3);
+        assertThat(bishopBlack.way(Cell.F1, Cell.D3), is(new Cell[]{Cell.E2, Cell.D3}));
+    }
+    @Test
     public void CheckTrueDiagonal() {
         BishopBlack bishopBlack = new BishopBlack(Cell.G5);
         bishopBlack.isDiagonal(Cell.C1, Cell.G5);
