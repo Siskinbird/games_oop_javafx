@@ -21,10 +21,10 @@ public class LogicTest {
     public void WhenNoWay() {
         Logic logic = new Logic();
         logic.add(new BishopBlack(Cell.B1));
-        logic.add(new RookBlack(Cell.C2));
+        logic.add(new RookBlack(Cell.D3));
         assertThat(logic.move(Cell.B1, Cell.D3), is (false));
     }
-    @Test
+    @Test (expected = Exception.class)
     public void WhenCageIsOccupied(){
         Logic logic = new Logic();
         logic.add(new BishopBlack(Cell.F1));

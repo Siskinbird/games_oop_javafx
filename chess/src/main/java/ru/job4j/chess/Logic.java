@@ -20,21 +20,19 @@ public class Logic {
     public void add(Figure figure) {
         this.figures[this.index++] = figure;
     }
-
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
-        try {
             int index = this.findBy(source);
             if (index != -1) {
                 Cell[] steps = this.figures[index].way(source, dest);
                 if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
                     rst = true;
-                    this.figures[index] = this.figures[index].copy(dest);
+                    if (this.figures[index] != null) {
+                        throw new IllegalStateException(String.format("Cage is occupied"));
+                    }
+                     this.figures[index] = this.figures[index].copy(dest);
                 }
             }
-        } catch (Exception x){
-            System.out.println("Bad way");
-        }
         return rst;
     }
 
