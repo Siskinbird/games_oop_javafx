@@ -35,6 +35,12 @@ public class BishopBlack implements Figure {
         return this.position;
     }
 
+    /**
+     * Движение слона по полю
+     * @param source
+     * @param dest
+     * @return
+     */
     @Override
     public Cell[] way(Cell source, Cell dest) {
         if (!isDiagonal(source, dest)) {
@@ -50,6 +56,12 @@ public class BishopBlack implements Figure {
         return steps;
     }
 
+    /**
+     * Проверка корректности диагонального движения
+     * @param source
+     * @param dest
+     * @return
+     */
     public boolean isDiagonal(Cell source, Cell dest) {
         return Math.abs(dest.x - source.x) == Math.abs(dest.y - source.y);
     }
@@ -59,19 +71,3 @@ public class BishopBlack implements Figure {
         return new BishopBlack(dest);
     }
 }
-
-
-
-////Определяем знак (направление движения фигуры).
-//                if(x2-x1>0){        //Двигаем вправо.
-//                    for(int i=1;i<x2;i++){
-//                        if(!CheckPoint(x1+i,y1)){
-//                            System.out.println("Ферзь не может перескакивать через другие фигуры.");
-//                            return;
-//                        }
-//                    }
-//                    //Тут буден написана в будущем проверка на наличие фигуры в конце пути, и проверка, можно ли ее съесть.
-//                }else{
-//                    for(int i=-1;i>x2;i--){//Двигаем влево.
-//  for(int i=-1;i>y2;i--){//Двигаем вниз.
-//  for(int i=-1;i>x2;i--){//Двигаем влево.

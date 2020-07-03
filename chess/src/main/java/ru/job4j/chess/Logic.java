@@ -17,32 +17,70 @@ public class Logic {
     private final Figure[] figures = new Figure[32];
     private int index = 0;
 
+    /**
+     * Добавление фигуры на доску
+     *
+     * @param figure
+     */
     public void add(Figure figure) {
         this.figures[this.index++] = figure;
     }
+
+    /**
+     * Движение фигуры
+     *
+     * @param source
+     * @param dest
+     * @return
+     */
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
+        try {
             int index = this.findBy(source);
             if (index != -1) {
                 Cell[] steps = this.figures[index].way(source, dest);
                 if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
                     rst = true;
-                    if (this.figures[index] != null) {
+                    if (!checkPointer(source, dest)) {
                         throw new IllegalStateException(String.format("Cage is occupied"));
                     }
-                     this.figures[index] = this.figures[index].copy(dest);
+                    this.figures[index] = this.figures[index].copy(dest);
                 }
             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return rst;
     }
 
-    public void clean() {
-        for (int position = 0; position != this.figures.length; position++) {
-            this.figures[position] = null;
+    /**
+     * Метод проверки пути фигуры
+     * @param source
+     * @param dest
+     * @return
+     */
+    public boolean checkPointer(Cell source, Cell dest) {
+        boolean rst = false;
+        int index = this.findBy(source);
+        if (index != -1) {
+            Cell[] steps = this.figures[index].way(source, dest);
+            if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+                for (index = 0; index < steps.length; index++) {
+                    if (findBy(steps[index]) != -1) {
+                        throw new IllegalStateException(String.format("Cant move, cage on way is occupied"));
+                    }
+                }
+            }rst = true;
         }
-        this.index = 0;
+        return rst;
     }
 
+    /**
+     * Метод поиска фигуры
+     * @param cell
+     * @return
+     */
     private int findBy(Cell cell) {
         int rst = -1;
         for (int index = 0; index != this.figures.length; index++) {
@@ -53,6 +91,17 @@ public class Logic {
         }
         return rst;
     }
+
+    /**
+     * Очистка начального положения фигуры
+     */
+    public void clean() {
+        for (int position = 0; position != this.figures.length; position++) {
+            this.figures[position] = null;
+        }
+        this.index = 0;
+    }
+
 
     @Override
     public String toString() {
