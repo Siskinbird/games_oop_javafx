@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * //TODO add comments.
- *
  * @author Petr Arsentev (parsentev@yandex.ru)
  * @version $Id$
  * @since 0.1
@@ -35,45 +33,31 @@ public class Logic {
      */
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
-        try {
-            int index = this.findBy(source);
-            if (index != -1) {
-                Cell[] steps = this.figures[index].way(source, dest);
-                if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                    rst = true;
-                    if (!checkPointer(source, dest)) {
-                        throw new IllegalStateException(String.format("Cage is occupied"));
-                    }
-                    this.figures[index] = this.figures[index].copy(dest);
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return rst;
-    }
-
-    /**
-     * Метод проверки пути фигуры
-     * @param source
-     * @param dest
-     * @return
-     */
-    public boolean checkPointer(Cell source, Cell dest) {
-        boolean rst = false;
         int index = this.findBy(source);
         if (index != -1) {
             Cell[] steps = this.figures[index].way(source, dest);
             if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                for (index = 0; index < steps.length; index++) {
-                    if (findBy(steps[index]) != -1) {
-                        throw new IllegalStateException(String.format("Cant move, cage on way is occupied"));
-                    }
-                }
-            }rst = true;
-        }
-        return rst;
+                rst = checkPointer(steps);
+                this.figures[index] = this.figures[index].copy(dest);
+            }
+        }return rst;
+    }
+
+    /**
+     * Метод проверки пути фигуры
+     * @param steps
+     * @return result
+     */
+    public boolean checkPointer(Cell[] steps) {
+        boolean result = true;
+        for (int i = 0; i < steps.length; i++) {
+            Cell step = steps[i];
+            int check = findBy(step);
+            if (check != -1) {
+                result = false;
+                break;
+            }
+        }return result;
     }
 
     /**

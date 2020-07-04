@@ -11,32 +11,27 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class LogicTest {
-   @Test (expected = Exception.class)
-    public void CheckPointTest() {
-        Logic logic = new Logic();
-        logic.add(new BishopBlack(Cell.B1));
-        logic.add(new RookBlack(Cell.D3));
-        assertThat(logic.checkPointer(Cell.B1,Cell.D3), is(false));
-    }
-    @Test
-    public void WhenWayIsFree() {
-        Logic logic = new Logic();
-        logic.add(new BishopBlack(Cell.B1));
-        logic.add(new BishopBlack(Cell.D7));
-        assertThat(logic.checkPointer(Cell.B1, Cell.F5), is (true));
-    }
-    @Test (expected = Exception.class)
+   @Test
     public void WhenNoWay() {
         Logic logic = new Logic();
         logic.add(new BishopBlack(Cell.B1));
         logic.add(new RookBlack(Cell.D3));
-        assertThat(logic.checkPointer(Cell.B1, Cell.D3), is (false));
+        logic.move(Cell.B1, Cell.E4);
+        assertThat(logic.checkPointer(new Cell[]{Cell.D2,Cell.D3, Cell.E4}), is(false));
     }
-    @Test (expected = Exception.class)
-    public void WhenCageIsOccupied(){
+    @Test
+    public void WhenWayIsFree() {
         Logic logic = new Logic();
-        logic.add(new BishopBlack(Cell.F1));
-        logic.add(new RookBlack(Cell.G2));
-        assertThat(logic.checkPointer(Cell.F1, Cell.G2), is(false));
+        logic.add(new BishopBlack(Cell.H1));
+        logic.move(Cell.H1, Cell.F3);
+        assertThat(logic.checkPointer(new Cell[]{Cell.G2, Cell.F3}), is (true));
+    }
+    @Test
+    public void WhenCageIsOccupied() {
+        Logic logic = new Logic();
+        logic.add(new BishopBlack(Cell.B1));
+        logic.add(new RookBlack(Cell.D3));
+        logic.move(Cell.B1, Cell.E4);
+        assertThat(logic.checkPointer(new Cell[]{Cell.C2, Cell.D3, Cell.E4}), is (false));
     }
 }
