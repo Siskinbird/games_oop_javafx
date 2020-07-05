@@ -33,16 +33,20 @@ public class Logic {
      */
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
-        int index = this.findBy(source);
-        if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
-            if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-                rst = checkPointer(steps);
-                this.figures[index] = this.figures[index].copy(dest);
+        try {
+            int index = this.findBy(source);
+            if (index != -1) {
+                Cell[] steps = this.figures[index].way(source, dest);
+                if (steps.length > 0 && steps[steps.length - 1].equals(dest) && checkPointer(steps)) {
+                    rst = true;
+                    this.figures[index] = this.figures[index].copy(dest);
+
+                }
             }
+        }catch (Exception n){
+            n.printStackTrace();
         }return rst;
     }
-
     /**
      * Метод проверки пути фигуры
      * @param steps
@@ -53,7 +57,7 @@ public class Logic {
         for (int i = 0; i < steps.length; i++) {
             Cell step = steps[i];
             int check = findBy(step);
-            if (check != -1) {
+            if (check != -1 ) {
                 result = false;
                 break;
             }

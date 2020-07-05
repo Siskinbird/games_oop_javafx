@@ -23,8 +23,8 @@ public class LogicTest {
     public void WhenWayIsFree() {
         Logic logic = new Logic();
         logic.add(new BishopBlack(Cell.H1));
-        logic.move(Cell.H1, Cell.F3);
-        assertThat(logic.checkPointer(new Cell[]{Cell.G2, Cell.F3}), is (true));
+        logic.add(new RookBlack(Cell.B2));
+        assertThat(logic.move(Cell.H1, Cell.F3), is (true));
     }
     @Test
     public void WhenCageIsOccupied() {
