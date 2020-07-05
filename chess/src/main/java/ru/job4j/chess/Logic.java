@@ -54,14 +54,14 @@ public class Logic {
      */
     public boolean checkPointer(Cell[] steps) {
         boolean result = true;
-        for (int i = 0; i < steps.length; i++) {
-            Cell step = steps[i];
+        for (Cell step : steps) {
             int check = findBy(step);
-            if (check != -1 ) {
+            if (check != -1) {
                 result = false;
                 break;
             }
-        }return result;
+        }
+        return result;
     }
 
     /**
